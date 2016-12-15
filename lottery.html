@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TEDxNCTU</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+
+</head>
+
+<body>
+    <div class="ui centered grid">
+        <img class='logo_item' src="logo_white.png" style="height:50px;">
+        <div class="row" style="text-align: center;display:inline;padding-top:30vh;">
+            <div><img src="./square.png" style="width:200px;"></div>
+            <div style="height:100px;">
+                <p id='winner' style="color:white; font-size:40px;"></p>
+                <div id='loader' class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+            <button class="j-button huge grey" id="get_winner_btn">抽獎</button>
+        </div>
+    </div>
+    <div class="ui modal" id="setting_modal">
+        <div class="header">Header</div>
+        <div class="content">
+            <form action="javascript:void(0);" class="ui form">
+                <h3>第一步：上傳 CSV</h3>
+                <div>
+                    <label for="file" class="ui icon blue button">
+                                <i class="file icon"></i>
+                                <span id="fn">選擇檔案</span>
+                    </label>
+                    <input type="file" id="file" style="display:none" required="required" accept=".csv">
+                </div>
+                <h3>第二步：確認檔案</h3>
+                <button class="ui blue button" id="upload_btn">上傳</button>
+                <h3>第三步：名單</h3>
+                <div class="ui form">
+                    <div class="field">
+                        <label>全部名單</label>
+                        <textarea id="name_list_textarea"></textarea>
+                    </div>
+                </div>
+                <h3>第四步：抽獎</h3>
+                <div class="ui form">
+                        <div class="field">
+                            <label>目前名單</label>
+                            <textarea id="current_name_list_textarea"></textarea>
+                        </div>
+                    <div class="field">
+                        <div class="ui input">
+                            <input type="text" id='winner_input' placeholder="得獎人">
+                        </div>
+                    </div>
+                    <!-- <button class="ui blue button" id="get_winner_btn">抽獎</button> -->
+                    <button class="ui blue button" id="reset_btn">重設</button>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+          <div class="ui approve button">Done</div>
+        </div>
+    </div>
+    <button style="background: #414142; position:absolute; top:20px; right:10px;" onclick="$('#setting_modal').modal('show');" class="ui icon button">
+        <i class="setting large icon"></i>
+    </button>
+    <script>
+        function fileInfo(e) {
+            var file = e.target.files[0];
+            if (file.name.split(".")[1].toUpperCase() != "CSV") {
+                alert('Invalid csv file !');
+                e.target.parentNode.reset();
+                return;
+            } else {
+                $('#fn').text(file.name);
+            }
+        }
+
+        function genCsvDict(csv) {
+            var nameArr = csv.data[0];
+            var result = [];
+            for (var i = 2; i < csv.data.length - 1; i++) {
+                var data = {};
+                for (var j = 0; j < csv.data[i].length; j++) {
+                    data[nameArr[j]] = csv.data[i][j];
+                }
+                result.push(data);
+            }
+            return result;
+        }
+
+        function genNameList(csv) {
+            var result = [];
+            for (var i = 1; i < csv.data.length - 1; i++) {
+                result.push(csv.data[i][0]);
+            }
+            return result;
+        }
+
+        var name_list = [];
+        var current_name_list = [];
+
+        function loadNameList(nl) {
+            name_list = nl;
+            updateNameTextarea(current_name_list);
+            resetCurrentNameList();
+        }
+
+        function resetCurrentNameList() {
+            current_name_list = name_list.slice(0);
+            updateCurrentNameTextarea(current_name_list);
+        }
+
+        function getRandomWinner() {
+            if(current_name_list.length==0){
+                return '';
+            }
+            var r = Math.floor(Math.random() * current_name_list.length);
+            var winner = current_name_list[r];
+            current_name_list.splice(r, 1);
+            updateCurrentNameTextarea(current_name_list);
+            // $('#winner_input').val(winner);
+            return winner;
+        }
+
+        function updateNameTextarea(nl) {
+            var t = '';
+            for(var i=0; i<name_list.length; i++){
+                t += name_list[i] + '\n';
+            }
+            $('#name_list_textarea').val(t);
+        }
+
+        function updateCurrentNameTextarea(nl) {
+            var t = '';
+            for(var i=0; i<current_name_list.length; i++){
+                t += current_name_list[i] + '\n';
+            }
+            $('#current_name_list_textarea').val(t);
+        }
+
+        function handleFileSelect() {
+            var file = document.getElementById("file").files[0];
+            Papa.parse(file, {
+                complete: function(results) {
+                    loadNameList(genNameList(results));
+                }
+            });
+        }
+
+        function showWinner(){
+            $('#loader').show();
+            $('#winner').hide();
+            setTimeout(function(){
+                $('#loader').hide();
+                $('#winner').show();
+                var winner = getRandomWinner();
+                $('#winner').animateCss('bounceIn');
+                $('#winner').text(winner);
+            }, 1000);
+        }
+        $('#loader').hide();
+        $('#reset_btn').click(resetCurrentNameList);
+        $('#upload_btn').click(handleFileSelect);
+        $('#get_winner_btn').click(showWinner);
+        $.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+        document.getElementById('file').addEventListener('change', fileInfo, false);
+    </script>
+</body>
+
+</html>

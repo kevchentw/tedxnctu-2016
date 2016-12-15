@@ -1,0 +1,234 @@
+body {
+    background-color: #414142;
+    width: 100%;
+}
+
+.logo_item {
+    position:absolute;
+    bottom:20px;
+    right:10px;
+}
+
+a.j-button,
+button.j-button,
+div.j-button{
+    cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    background: darkgrey;
+    color: white;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429em 1.5em;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px transparent inset,0 0 0 0;
+    font-size: 1rem;
+}
+
+a.j-button:hover,
+button.j-button:hover,
+div.j-button:hover {
+    background: grey;
+}
+
+.j-button.pink.select {
+    background: #BBBBBB;
+}
+
+.j-button.pink.select.active {
+    background: #E4B4B0;
+}
+
+.j-button.pink.select:hover {
+    background: #EFC6C4;
+}
+
+.j-button.pink {
+    background: #E4B4B0;
+}
+
+.j-button.pink:hover {
+    background: #EFC6C4;
+}
+
+.j-button.blue {
+    background: #009fcc;
+}
+
+.j-button.blue:hover {
+    background: #0075b1;
+}
+
+.j-button.google {
+    background: #dd4b39;
+}
+
+.j-button.google:hover {
+    background: #BF5E52;
+}
+
+.j-button.facebook {
+    background: #3b5998;
+}
+
+.j-button.facebook:hover {
+    background: #2c4272;
+}
+
+.j-button.grey {
+    background: #9997a2;
+}
+
+.j-button.grey:hover {
+    background: #9090a0;
+}
+
+.j-button.huge {
+    font-size: 1.8rem
+}
+
+.j-button.big {
+    font-size: 1.4rem
+}
+
+.j-button.small {
+    font-size: 0.5rem
+}
+
+.j-button.wide-1 {
+    width: 100px ;
+}
+
+.j-button.wide-2 {
+    width: 200px;
+}
+
+.j-button.wide-3 {
+    width: 300px;
+}
+
+h1.white,
+h2.white,
+h3.white,
+h4.white,
+h6.white,
+p.white{
+    color: white;
+}
+
+h1.white,
+h2.white,
+h3.white,
+h4.white,
+h6.white,
+p.white{
+    color: white;
+}
+
+h1.grey,
+h2.grey,
+h3.grey,
+h4.grey,
+h6.grey,
+p.grey{
+    color: #606A75;
+}
+
+h1.green,
+h2.green,
+h3.green,
+h4.green,
+h6.green,
+p.green{
+    color: #88BAA6;
+}
+
+h1.pink,
+h2.pink,
+h3.pink,
+h4.pink,
+h6.pink,
+p.pink{
+    color: #E4B4B0;
+}
+
+p.big{
+    font-size: 1.3em;
+}
+
+p.normal{
+    font-size: 1.2em;
+}
+
+.spinner {
+  margin: 30px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: white;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+.defer-animate {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-delay: 2s;
+}
+
+.logo-animate {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-delay: 0.5s;
+}
