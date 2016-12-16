@@ -18,8 +18,7 @@
         <img class='logo_item' src="logo_white.png" style="height:50px;">
         <div class="row" style="text-align: center;display:inline;padding-top:30vh;">
             <div><img src="./square.png" style="width:200px;"></div>
-            <div style="height:100px;">
-                <p id='winner' style="color:white; font-size:40px;"></p>
+            <div style="height:100px;margin-top:30px;">
                 <div id='loader' class="spinner">
                     <div class="rect1"></div>
                     <div class="rect2"></div>
@@ -27,8 +26,11 @@
                     <div class="rect4"></div>
                     <div class="rect5"></div>
                 </div>
+                <p id='winner' style="color:white; font-size:40px;"></p>
             </div>
-            <button class="j-button huge grey" id="get_winner_btn">抽獎</button>
+            <div>
+                <button class="j-button huge grey" id="get_winner_btn">抽獎</button>
+            </div>
         </div>
     </div>
     <div class="ui modal" id="setting_modal">
@@ -54,10 +56,10 @@
                 </div>
                 <h3>第四步：抽獎</h3>
                 <div class="ui form">
-                        <div class="field">
-                            <label>目前名單</label>
-                            <textarea id="current_name_list_textarea"></textarea>
-                        </div>
+                    <div class="field">
+                        <label>目前名單</label>
+                        <textarea id="current_name_list_textarea"></textarea>
+                    </div>
                     <div class="field">
                         <div class="ui input">
                             <input type="text" id='winner_input' placeholder="得獎人">
@@ -69,7 +71,7 @@
             </form>
         </div>
         <div class="actions">
-          <div class="ui approve button">Done</div>
+            <div class="ui approve button">Done</div>
         </div>
     </div>
     <button style="background: #414142; position:absolute; top:20px; right:10px;" onclick="$('#setting_modal').modal('show');" class="ui icon button">
@@ -123,7 +125,7 @@
         }
 
         function getRandomWinner() {
-            if(current_name_list.length==0){
+            if (current_name_list.length == 0) {
                 return '';
             }
             var r = Math.floor(Math.random() * current_name_list.length);
@@ -136,7 +138,7 @@
 
         function updateNameTextarea(nl) {
             var t = '';
-            for(var i=0; i<name_list.length; i++){
+            for (var i = 0; i < name_list.length; i++) {
                 t += name_list[i] + '\n';
             }
             $('#name_list_textarea').val(t);
@@ -144,7 +146,7 @@
 
         function updateCurrentNameTextarea(nl) {
             var t = '';
-            for(var i=0; i<current_name_list.length; i++){
+            for (var i = 0; i < current_name_list.length; i++) {
                 t += current_name_list[i] + '\n';
             }
             $('#current_name_list_textarea').val(t);
@@ -159,10 +161,10 @@
             });
         }
 
-        function showWinner(){
+        function showWinner() {
             $('#loader').show();
             $('#winner').hide();
-            setTimeout(function(){
+            setTimeout(function() {
                 $('#loader').hide();
                 $('#winner').show();
                 var winner = getRandomWinner();
@@ -175,14 +177,20 @@
         $('#upload_btn').click(handleFileSelect);
         $('#get_winner_btn').click(showWinner);
         $.fn.extend({
-    animateCss: function (animationName) {
-        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-        this.addClass('animated ' + animationName).one(animationEnd, function() {
-            $(this).removeClass('animated ' + animationName);
+            animateCss: function(animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                this.addClass('animated ' + animationName).one(animationEnd, function() {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
         });
-    }
-});
         document.getElementById('file').addEventListener('change', fileInfo, false);
+        document.onkeydown = function(e) {
+            e = e || window.event;
+            if (e.key == "PageUp" || e.key == "PageDown") {
+                showWinner();
+            }
+        };
     </script>
 </body>
 
